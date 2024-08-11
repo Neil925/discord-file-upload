@@ -1,12 +1,7 @@
 const express = require("express");
-const multer = require("multer");
-require('dotenv').config();
-
-if (process.env.UPLOAD_PATH == null)
-  throw new Error("No UPLOAD_PATH env variable found!");
+const upload = require("./upload.js");
 
 const app = express();
-const upload = multer({ dest: process.env.UPLOAD_PATH });
 
 app.get('/', function(req, res) {
   res.send('Hello World');
