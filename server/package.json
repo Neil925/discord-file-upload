@@ -4,7 +4,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "nodemon server.js"
+    "test": "nodemon server.js",
+    "start-db": "sudo docker-compose up -d",
+    "stop-db": "sudo docker-compose down"
   },
   "author": "Neil Elkadi & Sam",
   "license": "ISC",
@@ -14,6 +16,7 @@
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "mongoose": "^8.5.2",
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
