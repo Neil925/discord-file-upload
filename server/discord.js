@@ -28,8 +28,6 @@ module.exports = class Discord {
     if (uploadPool === null)
       throw new Error("Channel is null!");
 
-    console.debug(files);
-
     if (!Array.isArray(files))
       files = [files];
 
@@ -53,7 +51,5 @@ module.exports = class Discord {
       throw new Error(`Channel id ${channelid} is not a text based channel!`);
 
     uploadPool = channel;
-
-    console.log(`The channel ${uploadPool.name} will be used as a storage pool.`);
   }
 }
