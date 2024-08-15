@@ -1,27 +1,57 @@
 const mongoose = require('mongoose');
-mongoose.connect(process.env.DB_URL)
+const { Schema, model } = mongoose;
+
+const options = {
+  user: "root",
+  pass: "password"
+};
+
+mongoose.connect(process.env.DB_URL, options)
   .then(() => console.log("Database connected succesfully."))
   .catch(err => console.error(`Database connection failed: ${err}`));
 
-
-// FIX: WRONG WRONG WRONG WRONG WRONG! ALL WRONG! REEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-// TODO: Replace this with a directory schema and a file schema. Every user gets a single root directory. {SOMEIDHERE}_dir document per user, all files are within the children in there.
-const fileSchema = new mongoose.Schema({
+const FileSchema = new Schema({
   name: String,
+  type: {
+    type: String,
+    enum: ["file"],
+    default: "file"
+  },
   size: Number,
-  uploadDate: Date,
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  messageId: String,
   contentUrls: [String],
-  belongsTo: String
 });
 
-const userSchema = new mongoose.Schema({
+const DirectorySchema = new Schema({
+  name: String,
+  type: {
+    type: String,
+    enum: ["directory"],
+    default: "directory"
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  children: {
+    type: Schema.Types.Mixed
+  }
+});
+
+const UserSchema = new Schema({
   id: String,
   username: String,
   pfp: String,
   session: String
 });
 
-const fileModel = mongoose.model("files", fileSchema);
-const userModel = mongoose.model("users", userSchema);
+const FileModel = model("files", FileSchema);
+const DirModel = model("directory", DirectorySchema);
+const UserModel = model("users", UserSchema);
 
-module.exports = { fileModel, userModel };
+// TODO: I need to figure out what to export here.
+module.exports = { UserModel, FileModel, DirModel };
